@@ -76,7 +76,7 @@ project/plugins/project/
 *.pydevproject
 .project
 .metadata
-bin/**
+# bin/** # used in dotfiles and ruby gems
 tmp/**
 tmp/**/*
 *.tmp
