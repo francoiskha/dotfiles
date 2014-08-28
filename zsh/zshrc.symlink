@@ -41,7 +41,12 @@ unset config_files
 
 # oh-my-zsh specifics
 export ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="agnoster"
-plugins=(brew bundler gem gpg-agent git knife mvn node npm osx ruby rvm sublime sudo terminalapp vagrant vim)
+ZSH_THEME="agnoster-custom"
+if [[ "$(uname -s)" == "Darwin" ]]
+then 
+	plugins=(brew bundler gem gpg-agent git knife mvn node npm osx ruby rvm sublime sudo terminalapp vagrant vim)
+else
+	plugins=(bundler gem git knife mvn node npm ruby rvm sudo vagrant vim)
+fi
 source $ZSH/oh-my-zsh.sh
 export PATH=$HOME/.local/bin:/usr/local/bin:$PATH

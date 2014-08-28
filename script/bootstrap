@@ -150,6 +150,11 @@ then
     fail "error installing dependencies"
   fi
 fi
-
+if [ -d ~/.oh-my-zsh ]
+then
+  ln -s ~/.dotfiles/oh-my-zsh/agnoster-custom.zsh-theme ~/.oh-my-zsh/themes/agnoster-custom.zsh-theme
+else
+  fail "can't intall agnoster-custom.zsh-theme, oh-my-zsh not installed"
+fi
 echo ''
 echo '  All installed!'

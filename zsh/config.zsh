@@ -4,6 +4,8 @@ else
   export PS1='%3~$(git_info_for_prompt)%# '
 fi
 
+# tell remote hosts to use byobu, if available
+export LC_TERMTYPE=byobu
 export LSCOLORS="exfxcxdxbxegedabagacad"
 export CLICOLOR=true
 

@@ -8,12 +8,15 @@ I forked Zach Holman's as [he meant them to be](http://zachholman.com/2010/08/do
 
 ## install
 
-Install [oh-my-zsh](http://ohmyz.sh/).
+- Install [oh-my-zsh](http://ohmyz.sh/).
+I use oh-my-zsh agnoster theme so :
+- Install [Powerline fonts](https://powerline.readthedocs.org/en/latest/installation.html)
+- If necessary install [Patched fonts for powerline](https://github.com/Lokaltog/powerline-fonts)
 
-Run this:
+- Run this:
 
 ```sh
-git clone https://github.com/holman/dotfiles.git ~/.dotfiles
+git clone https://github.com/francoiskha/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 script/bootstrap
 ```
