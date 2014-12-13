@@ -13,6 +13,6 @@ then
 fi
 
 # Install homebrew packages
-brew install grc coreutils spark caskroom/cask/brew-cask
+brew_installs.sh
 
 exit 0
