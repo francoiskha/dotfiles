@@ -13,7 +13,7 @@ I use oh-my-zsh agnoster theme so :
 - Install [Powerline fonts](https://powerline.readthedocs.org/en/latest/installation.html)
 - If necessary install [Patched fonts for powerline](https://github.com/Lokaltog/powerline-fonts)
 
-- Run this :
+- Run this:
 
 ```sh
 git clone https://github.com/francoiskha/dotfiles.git ~/.dotfiles
