@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# start kids' favorites videos on toy
+echo "video enfants"
+curl "http://cismc.home:8085/jsonrpc?request=%7B%22jsonrpc%22%3A%222.0%22%2C%22id%22%3A%221%22%2C%22method%22%3A%22Player.Open%22%2C%22params%22%3A%7B%22item%22%3A%7B%22directory%22%3A%22%2Fhome%2Fxbmc%2FVid%C3%A9os%2Fenfants%2Fbest_of_youtube%2F%22%7D%7D%7D"
