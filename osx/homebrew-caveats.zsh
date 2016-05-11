@@ -5,3 +5,7 @@ function cleanup {
 	kill -9 $SSH_AGENT_PID
 }
 trap cleanup EXIT
+
+export GROOVY_HOME=/usr/local/opt/groovy/libexec
+
+[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
