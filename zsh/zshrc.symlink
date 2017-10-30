@@ -50,3 +50,10 @@ else
 fi
 source $ZSH/oh-my-zsh.sh
 export PATH=$HOME/.local/bin:/usr/local/bin:/opt/chefdk/bin:$PATH
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/fran/.sdkman"
+[[ -s "/Users/fran/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/fran/.sdkman/bin/sdkman-init.sh"
+
+# added by travis gem
+[ -f /Users/fran/.travis/travis.sh ] && source /Users/fran/.travis/travis.sh
