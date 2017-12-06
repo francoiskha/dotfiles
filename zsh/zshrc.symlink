@@ -6,9 +6,9 @@ export PROJECTS=~/Code
 
 # use .localrc for SUPER SECRET CRAP that you don't
 # want in your public, versioned repo.
-if [[ -a ~/.localrc ]]
+if [[ -a $HOME/.localrc ]]
 then
-  source ~/.localrc
+  source $HOME/.localrc
 fi
 
 # all of our zsh files
@@ -38,22 +38,3 @@ do
 done
 
 unset config_files
-
-# oh-my-zsh specifics
-export ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="agnoster"
-if [[ "$(uname -s)" == "Darwin" ]]
-then
-	plugins=(brew bundler gem gpg-agent git knife mvn node npm osx ruby rvm sublime sudo terminalapp vagrant vim)
-else
-	plugins=(bundler gem git knife mvn node npm ruby rvm sudo vagrant vim)
-fi
-source $ZSH/oh-my-zsh.sh
-export PATH=$HOME/.local/bin:/usr/local/bin:/opt/chefdk/bin:$PATH
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/Users/fran/.sdkman"
-[[ -s "/Users/fran/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/fran/.sdkman/bin/sdkman-init.sh"
-
-# added by travis gem
-[ -f /Users/fran/.travis/travis.sh ] && source /Users/fran/.travis/travis.sh

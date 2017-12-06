@@ -7,4 +7,7 @@ atom.symlink/storage
 atom.symlink/themes
 atom.symlink/compile-cache/
 
+pure-zsh/async
+pure-zsh/prompt_pure_setup
+
 git/gitconfig.symlink
