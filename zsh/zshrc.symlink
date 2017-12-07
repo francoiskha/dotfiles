@@ -11,7 +11,7 @@ then
   source $HOME/.localrc
 fi
 typeset -U config_files
-local_config_files=($HOME/.localrc.d/**/*.zsh)
+local_config_files=($HOME/.local.dotfiles/**/*.zsh)
 
 # load the path files
 for file in ${(M)local_config_files:#*/path.zsh}
