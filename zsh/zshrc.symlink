@@ -13,7 +13,7 @@ fi
 
 unset config_files_path
 
-for config_files_path in ".local.dotfiles" "$DOTFILES"
+for config_files_path in ".local/.dotfiles" "$DOTFILES"
 do
 	unset config_files
 
