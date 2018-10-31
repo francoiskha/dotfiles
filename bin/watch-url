@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+URL=$1    
+echo "monitoring : ${URL}"
+until $(curl -s -m 10 "${URL}")
+do 
+    sleep 60
+done
+notify-send "${URL} est up !"
