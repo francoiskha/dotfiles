@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 if [ -d /opt/chefdk1/ ]; then
 	export PATH=/opt/chefdk/bin:$PATH
 	export PATH=/opt/chefdk/embedded/bin:$PATH
