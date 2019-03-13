@@ -50,3 +50,6 @@ bindkey '^[[5C' end-of-line
 bindkey '^[[3~' delete-char
 bindkey '^[^N' newtab
 bindkey '^?' backward-delete-char
+# ubuntu 18.04 PC 105
+bindkey  "^[[H" beginning-of-line
+bindkey  "^[[F" end-of-line
