@@ -36,7 +36,8 @@
 [core]
         excludesfile = ~/.gitignore
         whitespace = -trailing-space
-        editor = subl -w
+#        editor = subl -w
+        editor = code --wait
 [diff]
         mnemonicPrefix = true
         wordRegex = .
