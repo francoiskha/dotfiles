@@ -1,3 +1,4 @@
+#!/bin/sh
 if [[ "$(uname -s)" == "Darwin" ]]
 then
 	# using homebrew version of openssh, this a caveat
