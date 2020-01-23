@@ -1,2 +1,2 @@
 #!/bin/sh
-apt install direnv
+sudo apt install direnv
