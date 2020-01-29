@@ -4,21 +4,16 @@
 # Homebrew Formulae
 # https://github.com/Homebrew/homebrew
 declare -a HOMEBREW_FORMULAE=(
-"autoenv"
 "autojump"
 "bonnie++"
 "caskroom/cask/brew-cask"
 "coreutils"
-"docker"
-"docker-machine"
-"docker-compose"
 "git"
 "gnupg2"
 "grc"
 "keybase"
 "maven"
 "pstree"
-"spark"
 "ssh-copy-id"
 "wget"
 "youtube-dl"
