@@ -32,4 +32,9 @@ else
 	elif [ -s /usr/share/autojump/autojump.${shell} ]; then
 	    source /usr/share/autojump/autojump.${shell}
 	fi
+
+	distro=$(cat /etc/issue | awk '{print $1}' | tr '[:upper:]' '[:lower:]')
+	if [ ${distro} = "debian" ] || [ ${distro} = "ubuntu" ] ; then
+		. /usr/share/autojump/autojump.sh
+	fi
 fi
