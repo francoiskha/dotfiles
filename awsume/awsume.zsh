@@ -1,4 +1,2 @@
 #!/bin/zsh
-if [[ -s "awsume" ]] then
-    alias awsume=". awsume"   
-fi
+[ -n $(command -v awsume) ] && alias awsume=". awsume"
