@@ -11,42 +11,40 @@ then
   source $HOME/.localrc
 fi
 
-unset config_files_path
+unset config_files
+# all of our zsh files
+typeset -U config_files
+config_files=($HOME/.local/.dotfiles/**/*.zsh(N) $DOTFILES/**/*.zsh(N))
 
-for config_files_path in "$HOME/.local/.dotfiles" "$DOTFILES"
+# load the aliases files
+for file in ${(M)config_files:#*/aliases.zsh}
 do
-	unset config_files
-
-	# all of our zsh files
-	typeset -U config_files
-	config_files=($config_files_path/**/*.zsh(N))
-
-	# load the path files
-	for file in ${(M)config_files:#*/path.zsh}
-	do
-	  source $file
-	done
-
-	# load everything but the path and completion files
-	for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}
-	do
-	  source $file
-	done
-
-	if [[ "$config_files_path" == "$DOTFILES" ]] 
-		then
-		# initialize autocomplete here, otherwise functions won't be loaded
-		autoload -U compinit
-		compinit
-	fi
-
-	# load every completion after autocomplete loads
-	for file in ${(M)config_files:#*/completion.zsh}
-	do
-	  source $file
-	done
-
-	unset config_files
+	source $file
 done
 
-unset config_files_path
+# load the path files
+for file in ${(M)config_files:#*/path.zsh}
+do
+	source $file
+done
+
+# load everything but the path, completion and aliased files
+for file in ${${${config_files:#*/path.zsh}:#*/completion.zsh}:#*/aliases.zsh}
+do
+	source $file
+done
+
+if [[ "$config_files_path" == "$DOTFILES" ]] 
+	then
+	# initialize autocomplete here, otherwise functions won't be loaded
+	autoload -U compinit
+	compinit
+fi
+
+# load every completion after autocomplete loads
+for file in ${(M)config_files:#*/completion.zsh}
+do
+	source $file
+done
+
+unset config_files
