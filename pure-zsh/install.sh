@@ -1,10 +1,7 @@
 #!/bin/bash
-if [[ ! -f "$PWD/pure-zsh/prompt_pure_setup " ]]
+if [[ ! -f "$HOME/.zsh/pure" ]]
 then
 	echo "Installing pure-zsh for you."
-	git clone --depth 1 https://github.com/sindresorhus/pure.git $HOME/.pure-zsh
-	dos2unix $HOME/.pure-zsh/async.zsh
-	dos2unix $HOME/.pure-zsh/pure.zsh
-	ln -s $HOME/.pure-zsh/async.zsh $PWD/pure-zsh/async
-	ln -s $HOME/.pure-zsh/pure.zsh $PWD/pure-zsh/prompt_pure_setup 
+	mkdir -p "$HOME/.zsh"
+	git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
 fi
