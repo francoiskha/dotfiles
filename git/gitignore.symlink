@@ -1,3 +1,7 @@
+# PAO #
+#######
+instance.log.dir_IS_UNDEFINED
+
 # Compiled source #
 ###################
 *.com
@@ -113,3 +117,8 @@ Session.vim
 # Vagrant #
 ###########
 .vagrant/
+
+# Ruby #
+########
+.rakeTasks
+*.lock

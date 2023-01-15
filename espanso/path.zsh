@@ -1,0 +1,1 @@
+PATH="$HOME/Library/Application Support/espanso:$PATH"
