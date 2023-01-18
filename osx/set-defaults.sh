@@ -31,4 +31,7 @@ then
 
     # Disable .DS_Store generation in network shares
     defaults write com.apple.desktopservices DSDontWriteNetworkStores true
+
+    defaults write com.apple.screencapture location "~/Pictures/captures/"
+    defaults write com.apple.screencapture name "capture"
 fi
