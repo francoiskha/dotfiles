@@ -1,6 +1,8 @@
 # PAO #
 #######
 instance.log.dir_IS_UNDEFINED
+_secrets/*
+.envrc
 
 # Compiled source #
 ###################

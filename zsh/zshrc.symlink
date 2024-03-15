@@ -34,12 +34,9 @@ do
 	source $file
 done
 
-if [[ "$config_files_path" == "$DOTFILES" ]] 
-	then
-	# initialize autocomplete here, otherwise functions won't be loaded
-	autoload -U compinit
-	compinit
-fi
+# initialize autocomplete here, otherwise functions won't be loaded
+autoload -U compinit
+compinit
 
 # load every completion after autocomplete loads
 for file in ${(M)config_files:#*/completion.zsh}
