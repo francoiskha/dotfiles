@@ -11,7 +11,7 @@ export LC_TERMTYPE=byobu
 export LSCOLORS="exfxcxdxbxegedabagacad"
 export CLICOLOR=true
 
-fpath=($DOTFILES/functions $fpath)
+fpath+=$DOTFILES/functions
 
 autoload -U $DOTFILES/functions/*(:t)
 
