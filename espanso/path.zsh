@@ -1,1 +1,0 @@
-[ -d "$HOME/Library/Application Support/espanso" ] && PATH="$HOME/Library/Application Support/espanso:$PATH"
