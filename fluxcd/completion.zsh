@@ -1,0 +1,1 @@
+[ -n $(command -v flux) ] && . <(flux completion zsh)

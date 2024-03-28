@@ -1,0 +1,2 @@
+#https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
+[ -n $(command -v brew) ] && [ -d "$(brew --prefix)/share/zsh/site-functions" ] &&  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
