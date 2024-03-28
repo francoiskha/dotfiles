@@ -1,1 +1,0 @@
-[[ -d /opt/pbis/ ]] && export PATH=/opt/pbis/bin:$PATH

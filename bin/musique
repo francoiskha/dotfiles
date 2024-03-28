@@ -1,9 +1,0 @@
-#!/bin/sh
-
-# Broacast spotify musique to toy
-
-echo "Music Maestro !"
-osascript -e 'tell application "Nicecast" to start broadcast';
-osascript -e 'tell application "Spotify" to play';
-sleep 5
-curl "http://jouet.home:8085/jsonrpc?request=%7B%22jsonrpc%22%3A%20%222.0%22%2C%22method%22%3A%22Player.Open%22%2C%22params%22%3A%7B%22item%22%20%3A%20%7B%20%22file%22%3A%20%22special%3A%2F%2Fprofile%2Fplaylists%2Fmusic%2Fmacbook.m3u%22%7D%7D%2C%22id%22%3A%201%7D"
