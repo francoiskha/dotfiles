@@ -16,6 +16,9 @@ then
     # Always open everything in Finder's column view. (list == Nlsv)
     defaults write com.apple.Finder FXPreferredViewStyle clmv
 
+    # Show dot files un Finder
+    defaults write com.apple.finder AppleShowAllFiles true
+
     # Show the ~/Library folder.
     chflags nohidden ~/Library
 
