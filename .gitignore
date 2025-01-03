@@ -11,3 +11,4 @@ pure-zsh/async
 pure-zsh/prompt_pure_setup
 
 git/gitconfig.symlink
+dcktools
