@@ -9,4 +9,3 @@ fi
 
 translate(){ wget -qO- "http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q=$1&langpair=$2|${3:-en}" | sed 's/.*"translatedText":"\([^"]*\)".*}/\1\n/'; }
 compress(){ 7zz a -t7z "$(date +%Y%m%d_%H%M)-${1}.7z" -m0=lzma2 -mx=9 -aoa -mfb=64 -md=32m -ms=on ${1} ; }
-7zz a -t7z "$(date +%Y%m%d_%H%M)-${1}.7z" -m0=lzma2 -mx=9 -aoa -mfb=64 -md=32m -ms=on ${1} ;
