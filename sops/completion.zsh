@@ -1,0 +1,1 @@
+command -v sops >/dev/null 2>&1 && . <(sops completion zsh)
