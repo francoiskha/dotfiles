@@ -124,3 +124,20 @@ Session.vim
 ########
 .rakeTasks
 *.lock
+
+# Direnv #
+##########
+.env
+.envrc
+
+# Sdkman #
+##########
+.sdkmanrc
+
+# Mise-en-place #
+#################
+mise.local.toml
+.mise.local.toml
+.env.yaml
+.env.json
+.env.toml
