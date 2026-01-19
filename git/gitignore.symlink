@@ -2,7 +2,7 @@
 #######
 instance.log.dir_IS_UNDEFINED
 _secrets/*
-.envrc
+.local
 
 # Compiled source #
 ###################
@@ -115,6 +115,10 @@ local.properties
 .*.sw[a-z]
 *.un~
 Session.vim
+
+# vscode #
+##########
+.vscode
 
 # SVN #
 #######
