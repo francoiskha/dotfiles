@@ -1,15 +1,23 @@
-# francoiskha forked dotfiles
+# francoiskha's Dotfiles
 
-## dotfiles
+Personalized shell environment, forked from [Zach Holman's dotfiles](http://zachholman.com/2010/08/dotfiles-are-meant-to-be-forked/).
 
-Your dotfiles are how you personalize your system. These are mine.
+## Intent & Architecture
 
-I forked Zach Holman's as [he meant them to be](http://zachholman.com/2010/08/dotfiles-are-meant-to-be-forked/). I made the thing work with oh-my-zsh [as Aniket Pant did](http://aniketpant.com/2013/04/get-your-dotfiles-straight/).
+This setup focuses on **performance** and **maintainability** while leveraging the best parts of the Oh-My-Zsh ecosystem.
 
-## install
+### Key Performance Optimizations
+- **Antidote for Plugins**: Replaced the full Oh-My-Zsh framework with [Antidote](https://getantidote.github.io/). This allows loading only necessary OMZ plugins (like `git`, `docker`, etc.) without the overhead of the entire framework. Plugins are statically compiled for near-instant startup.
+- **Mise for Tooling**: Replaced `nvm` with [Mise](https://mise.jdx.dev/). Mise is written in Rust and handles tool versions (Node, Python, Go) without slowing down every shell session.
+- **Homebrew Prefix Caching**: The Homebrew installation path is cached in `$BREW_PREFIX` once during startup, avoiding expensive subshell calls like `$(brew --prefix)` throughout the configuration.
+- **Optimized Loading Order**: Shell initialization is carefully sequenced: Environment -> PATH -> `compinit` -> Plugins -> Aliases. Initializing `compinit` *before* plugins ensures that `compdef` is always available when plugins need it.
 
-- Install [oh-my-zsh](http://ohmyz.sh/).
-- Run this:
+### Core Components
+- **Prompt**: Uses [Pure](https://github.com/sindresorhus/pure) for a minimal, fast, and informative prompt.
+- **Package Management**: A centralized `Brewfile` at the root tracks all Homebrew formulas, casks, and Mac apps.
+- **Automatic Caching**: Dynamic completions (for tools like `fzf` or `docker`) are cached locally to minimize startup lag.
+
+## Installation
 
 ```sh
 git clone https://github.com/francoiskha/dotfiles.git ~/.dotfiles
@@ -17,6 +25,29 @@ cd ~/.dotfiles
 script/bootstrap
 ```
 
-## more
+The `bootstrap` script will link your configuration files and sync all dependencies via `brew bundle`.
 
-See [@holman's dotfile repo](https://github.com/holman/dotfiles) for more information about how it works.
+## Maintenance & Customization
+
+### Adding Plugins
+Add any Zsh plugin (from GitHub or Oh-My-Zsh) to `zsh/plugins.txt` and restart your shell.
+
+### Adding Packages
+Add new Homebrew packages or Mac apps to the `Brewfile`. You can then sync your system by running:
+```sh
+dotfilesdot
+```
+(This is an alias for `bin/dotfilesdot` which updates Brew and runs `brew bundle`).
+
+### Secrets
+Put your sensitive environment variables (API keys, private tokens) in `~/.localrc`. This file is sourced by Zsh but is not tracked by Git.
+
+### Troubleshooting
+If you see errors related to `completions`, ensure `$ZSH_CACHE_DIR` (defined in `zshrc.symlink`) is writable. The system automatically creates this in your home cache directory.
+
+## Credits
+
+Based on [Holman's dotfiles](https://github.com/holman/dotfiles).
+Theme: [Pure](https://github.com/sindresorhus/pure).
+Plugin Manager: [Antidote](https://getantidote.github.io/).
+Version Manager: [Mise](https://mise.jdx.dev/).
