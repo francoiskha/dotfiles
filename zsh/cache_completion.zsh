@@ -4,7 +4,7 @@ function load_cached_completion() {
     local tool=$1
     local completion_cmd=$2
     local version_cmd=$3
-    local cache_dir=${4:-"/usr/local/share/zsh/site-functions/"}
+    local cache_dir=${4:-"${XDG_CACHE_HOME:-$HOME/.cache}/zsh/completions"}
     
     # Do nothing if tool is not installed
     if ! command -v "$tool" >/dev/null 2>&1; then
@@ -39,9 +39,14 @@ function load_cached_completion() {
     fi
     
     if [[ $needs_regen -eq 1 ]]; then
-        eval "$completion_cmd" > "$cache_file" 2>/dev/null
-        eval "$version_cmd" > "$version_file" 2>/dev/null
+        local tmp_cache="$cache_file.tmp"
+        if eval "$completion_cmd" > "$tmp_cache" 2>/dev/null; then
+            mv "$tmp_cache" "$cache_file"
+            eval "$version_cmd" > "$version_file" 2>/dev/null
+        else
+            rm -f "$tmp_cache"
+        fi
     fi
     
-    source "$cache_file"
+    [[ -s "$cache_file" ]] && source "$cache_file"
 }
