@@ -12,3 +12,4 @@ pure-zsh/prompt_pure_setup
 
 git/gitconfig.symlink
 dcktools
+zsh/plugins.zsh
