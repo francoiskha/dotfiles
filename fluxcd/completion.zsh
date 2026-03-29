@@ -1,1 +1,1 @@
-command -v flux >/dev/null 2>&1 && . <(flux completion zsh)
+load_cached_completion flux "flux completion zsh" "flux --version"

@@ -1,1 +1,1 @@
-command -v fzf >/dev/null 2>&1 && eval "$(fzf --zsh)"
+load_cached_completion fzf "fzf --zsh" "fzf --version"

@@ -1,1 +1,1 @@
-command -v sops >/dev/null 2>&1 && . <(sops completion zsh)
+load_cached_completion sops "sops completion zsh" "sops --version"
