@@ -4,8 +4,14 @@ function load_cached_completion() {
     local tool=$1
     local completion_cmd=$2
     local version_cmd=$3
-    local cache_dir=${4:-"${XDG_CACHE_HOME:-$HOME/.cache}/zsh/completions"}
+    local default_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/completions"
+    local cache_dir=${4:-$default_cache_dir}
     
+    # Security: ensure cache_dir is never empty to avoid writing to root
+    if [[ -z "$cache_dir" ]]; then
+        cache_dir=$default_cache_dir
+    fi
+
     # Do nothing if tool is not installed
     if ! command -v "$tool" >/dev/null 2>&1; then
         return 0

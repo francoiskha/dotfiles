@@ -4,44 +4,72 @@ export DOTFILES=$HOME/.dotfiles
 # your project folder that we can `c [tab]` to
 export PROJECTS=~/workspaces
 
-# use .localrc for SUPER SECRET CRAP that you don't
-# want in your public, versioned repo.
-if [[ -a $HOME/.localrc ]]
-then
-  source $HOME/.localrc
+# Define Cache Directory for Oh-My-Zsh plugins (used by antidote)
+export ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/oh-my-zsh"
+mkdir -p "$ZSH_CACHE_DIR/completions"
+
+# Optimize Homebrew prefix
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  export BREW_PREFIX="/opt/homebrew"
+elif [[ -x /usr/local/bin/brew ]]; then
+  export BREW_PREFIX="/usr/local"
 fi
 
-unset config_files
-# all of our zsh files
+# 1. Environment and PATH
 typeset -U config_files
-config_files=($HOME/.local/.dotfiles/**/*.zsh(N) $DOTFILES/**/*.zsh(N))
+config_files=($DOTFILES/**/*.zsh(N))
 
-# load the aliases files
-for file in ${(M)config_files:#*/aliases.zsh}
-do
-	source $file
-done
-
-# load the path files
+# Load path files first
 for file in ${(M)config_files:#*/path.zsh}
 do
 	source $file
 done
 
-# load everything but the path, completion and aliases files
+# use .localrc for SECRET stuff
+if [[ -a $HOME/.localrc ]]
+then
+  source $HOME/.localrc
+fi
+
+# 2. Completions and fpath setup (MUST BE BEFORE COMPINIT)
+# Add OMZ completions to fpath
+fpath=($ZSH_CACHE_DIR/completions $DOTFILES/functions $fpath)
+for topic_folder ($DOTFILES/*) if [ -d $topic_folder ]; then fpath=($topic_folder $fpath); fi;
+if [[ -n "$BREW_PREFIX" ]]; then
+  fpath+=("${BREW_PREFIX}/share/zsh/site-functions/")
+fi
+
+# Initialize autocomplete early so compdef is available for plugins
+autoload -U compinit
+compinit
+
+# 3. Plugins (Antidote) - Can now use compdef safely
+if [[ -f ${BREW_PREFIX}/opt/antidote/share/antidote/antidote.zsh ]]; then
+  source ${BREW_PREFIX}/opt/antidote/share/antidote/antidote.zsh
+  antidote load $DOTFILES/zsh/plugins.txt
+fi
+
+# 4. Aliases and other scripts
+for file in ${(M)config_files:#*/aliases.zsh}
+do
+	source $file
+done
+
+# Load everything but path, completion and aliases files (already sourced or will be)
 for file in ${${${config_files:#*/path.zsh}:#*/completion.zsh}:#*/aliases.zsh}
 do
 	source $file
 done
 
-# initialize autocomplete here, otherwise functions won't be loaded
-autoload -U compinit
-compinit
-
-# load every completion after autocomplete loads
+# Load custom completions using our cached mechanism
 for file in ${(M)config_files:#*/completion.zsh}
 do
 	source $file
 done
+
+# 5. Tools (Mise, etc.)
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+fi
 
 unset config_files
