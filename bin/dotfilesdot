@@ -13,4 +13,4 @@ $DOTFILES/osx/set-defaults.sh
 brew update
 
 # Install homebrew packages
-$DOTFILES/homebrew/install.sh 2>&1
+brew bundle --file="$DOTFILES/Brewfile"

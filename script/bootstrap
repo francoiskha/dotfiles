@@ -143,18 +143,13 @@ install_dotfiles
 if [ "$(uname -s)" == "Darwin" ]
 then
   info "installing dependencies"
-  if source bin/dot > /tmp/dotfiles-dot 2>&1
+  if brew bundle --file="$DOTFILES_ROOT/Brewfile"
   then
     success "dependencies installed"
   else
     fail "error installing dependencies"
   fi
 fi
-if [ -d ~/.oh-my-zsh ]
-then
-  ln -s ~/.dotfiles/oh-my-zsh/agnoster-custom.zsh-theme ~/.oh-my-zsh/themes/agnoster-custom.zsh-theme
-else
-  fail "can't intall agnoster-custom.zsh-theme, oh-my-zsh not installed"
-fi
+
 echo ''
 echo '  All installed!'
