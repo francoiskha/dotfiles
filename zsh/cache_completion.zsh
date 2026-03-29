@@ -1,16 +1,16 @@
 # Helper function to cache dynamically generated completions
-# Usage: load_cached_completion <tool_name> <completion_command> <version_command>
+# Usage: load_cached_completion <tool_name> <completion_command> <version_command> [cache_dir]
 function load_cached_completion() {
     local tool=$1
     local completion_cmd=$2
     local version_cmd=$3
+    local cache_dir=${4:-"/usr/local/share/zsh/site-functions/"}
     
     # Do nothing if tool is not installed
     if ! command -v "$tool" >/dev/null 2>&1; then
         return 0
     fi
     
-    local cache_dir="$HOME/.zsh/cache/completions"
     mkdir -p "$cache_dir"
     
     local cache_file="$cache_dir/$tool.zsh"

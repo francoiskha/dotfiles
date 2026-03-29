@@ -1,1 +1,1 @@
-load_cached_completion fzf "fzf --zsh" "fzf --version"
+load_cached_completion fzf "fzf --zsh" "fzf --version" "${0:A:h}"

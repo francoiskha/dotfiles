@@ -1,1 +1,1 @@
-load_cached_completion sops "sops completion zsh" "sops --version"
+load_cached_completion sops "sops completion zsh" "sops --version" "${0:A:h}"

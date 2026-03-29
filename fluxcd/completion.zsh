@@ -1,1 +1,1 @@
-load_cached_completion flux "flux completion zsh" "flux --version"
+load_cached_completion flux "flux completion zsh" "flux --version" "${0:A:h}"
