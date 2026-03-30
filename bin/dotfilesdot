@@ -14,3 +14,8 @@ brew update
 
 # Install homebrew packages
 brew bundle --file="$DOTFILES/Brewfile"
+if [ "$USER" == "fran" ]; then
+  brew bundle --file="$DOTFILES/Brewfile.personal"
+else
+  brew bundle --file="$DOTFILES/Brewfile.work"
+fi

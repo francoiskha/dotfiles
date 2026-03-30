@@ -14,7 +14,12 @@ This setup focuses on **performance** and **maintainability** while leveraging t
 
 ### Core Components
 - **Prompt**: Uses [Pure](https://github.com/sindresorhus/pure) for a minimal, fast, and informative prompt.
-- **Package Management**: A centralized `Brewfile` at the root tracks all Homebrew formulas, casks, and Mac apps.
+- **Package Management**: Three `Brewfile`s at the root track Homebrew formulas and casks:
+  - `Brewfile` — baseline packages installed on every Mac
+  - `Brewfile.personal` — packages for the personal Mac only
+  - `Brewfile.work` — packages for the work Mac only
+
+  The context is detected automatically: if `$USER == "fran"`, the personal profile is applied; otherwise the work profile is used.
 - **Automatic Caching**: Dynamic completions (for tools like `fzf` or `docker`) are cached locally to minimize startup lag.
 
 ## Installation
@@ -33,7 +38,12 @@ The `bootstrap` script will link your configuration files and sync all dependenc
 Add any Zsh plugin (from GitHub or Oh-My-Zsh) to `zsh/plugins.txt` and restart your shell.
 
 ### Adding Packages
-Add new Homebrew packages or Mac apps to the `Brewfile`. You can then sync your system by running:
+Add new Homebrew packages or Mac apps to the appropriate `Brewfile`:
+- `Brewfile` for packages needed on every Mac
+- `Brewfile.personal` for packages specific to the personal Mac
+- `Brewfile.work` for packages specific to the work Mac
+
+You can then sync your system by running:
 ```sh
 dotfilesdot
 ```

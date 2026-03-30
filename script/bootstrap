@@ -145,6 +145,12 @@ then
   info "installing dependencies"
   if brew bundle --file="$DOTFILES_ROOT/Brewfile"
   then
+    if [ "$USER" == "fran" ]
+    then
+      brew bundle --file="$DOTFILES_ROOT/Brewfile.personal"
+    else
+      brew bundle --file="$DOTFILES_ROOT/Brewfile.work"
+    fi
     success "dependencies installed"
   else
     fail "error installing dependencies"
