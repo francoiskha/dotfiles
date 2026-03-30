@@ -1,2 +1,4 @@
 # export EDITOR='code'
-export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+fi

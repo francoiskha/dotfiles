@@ -157,5 +157,20 @@ then
   fi
 fi
 
+# If we're on Debian, let's install basics.
+if [ -f /etc/debian_version ]
+then
+  info "installing dependencies for Debian"
+  sudo apt-get update
+  sudo apt-get install -y zsh git curl wget
+  
+  if [ ! -d "$HOME/.antidote" ]
+  then
+    info "installing antidote"
+    git clone --depth=1 https://github.com/mattmc3/antidote.git "$HOME/.antidote"
+  fi
+  success "Debian dependencies installed"
+fi
+
 echo ''
 echo '  All installed!'

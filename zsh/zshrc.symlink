@@ -44,8 +44,13 @@ autoload -U compinit
 compinit
 
 # 3. Plugins (Antidote) - Can now use compdef safely
-if [[ -f ${BREW_PREFIX}/opt/antidote/share/antidote/antidote.zsh ]]; then
-  source ${BREW_PREFIX}/opt/antidote/share/antidote/antidote.zsh
+local antidote_path="${BREW_PREFIX}/opt/antidote/share/antidote/antidote.zsh"
+if [[ ! -f $antidote_path ]]; then
+  antidote_path="$HOME/.antidote/antidote.zsh"
+fi
+
+if [[ -f $antidote_path ]]; then
+  source $antidote_path
   antidote load $DOTFILES/zsh/plugins.txt
 fi
 
