@@ -149,3 +149,5 @@ mise.local.toml
 .env.yaml
 .env.json
 .env.toml
+.mise
+.mise-tasks
