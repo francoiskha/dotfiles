@@ -41,7 +41,7 @@ function load_cached_completion() {
     if [[ $needs_regen -eq 1 ]]; then
         local tmp_cache="$cache_file.tmp"
         if eval "$completion_cmd" > "$tmp_cache" 2>/dev/null; then
-            mv "$tmp_cache" "$cache_file"
+            mv -f "$tmp_cache" "$cache_file"
             eval "$version_cmd" > "$version_file" 2>/dev/null
         else
             rm -f "$tmp_cache"
