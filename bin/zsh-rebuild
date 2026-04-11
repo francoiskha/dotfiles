@@ -1,0 +1,95 @@
+#!/usr/bin/env zsh
+
+# This script statically generates sourcing indices and plugin bundles for zsh.
+
+DOTFILES=${DOTFILES:-$HOME/.dotfiles}
+INDEX_FILE="$HOME/.zsh_index.zsh"
+PLUGINS_FILE="$HOME/.zsh_plugins.zsh"
+
+echo "Rebuilding zsh cache..."
+
+# Optimize Homebrew prefix
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  BREW_PREFIX="/opt/homebrew"
+elif [[ -x /usr/local/bin/brew ]]; then
+  BREW_PREFIX="/usr/local"
+elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+  BREW_PREFIX="/home/linuxbrew/.linuxbrew"
+else
+  BREW_PREFIX=""
+fi
+
+# 1. Generate Static Source Index
+echo -n > "$INDEX_FILE"
+
+typeset -U config_files
+config_files=($DOTFILES/**/*.zsh)
+
+# Function to write a source block
+write_block() {
+  local func_name=$1
+  shift
+  local files=($@)
+  echo "$func_name() {" >> "$INDEX_FILE"
+  for f in $files; do
+    echo "  source \"$f\"" >> "$INDEX_FILE"
+  done
+  echo "}" >> "$INDEX_FILE"
+  echo "" >> "$INDEX_FILE"
+}
+
+# path.zsh
+path_files=(${(M)config_files:#*/path.zsh})
+write_block "load_zsh_paths" $path_files
+
+# aliases.zsh
+alias_files=(${(M)config_files:#*/aliases.zsh})
+write_block "load_zsh_aliases" $alias_files
+
+# completion.zsh
+completion_files=(${(M)config_files:#*/completion.zsh})
+write_block "load_zsh_completions" $completion_files
+
+# everything else
+misc_files=(${${${config_files:#*/path.zsh}:#*/completion.zsh}:#*/aliases.zsh})
+write_block "load_zsh_misc" $misc_files
+
+echo "-> Created $INDEX_FILE"
+
+# 2. Bundle Antidote Plugins
+local antidote_path=""
+if [[ -n "$BREW_PREFIX" && -f "${BREW_PREFIX}/opt/antidote/share/antidote/antidote.zsh" ]]; then
+  antidote_path="${BREW_PREFIX}/opt/antidote/share/antidote/antidote.zsh"
+elif [[ -f "$HOME/.antidote/antidote.zsh" ]]; then
+  antidote_path="$HOME/.antidote/antidote.zsh"
+fi
+
+if [[ -n "$antidote_path" ]]; then
+  source "$antidote_path"
+  antidote bundle < "$DOTFILES/zsh/plugins.txt" > "$PLUGINS_FILE"
+  echo "-> Created $PLUGINS_FILE"
+else
+  echo "-> WARNING: antidote not found. Cannot bundle plugins."
+  echo -n > "$PLUGINS_FILE"
+fi
+
+# 3. Rebuild compinit dump
+ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/oh-my-zsh"
+mkdir -p "$ZSH_CACHE_DIR/completions"
+
+rm -f ~/.zcompdump*
+autoload -U compinit
+
+# Setup fpath for the rebuild so compinit finds everything
+fpath=($ZSH_CACHE_DIR/completions $DOTFILES/functions $fpath)
+for topic_folder in $DOTFILES/*; do
+  if [ -d $topic_folder ]; then fpath=($topic_folder $fpath); fi;
+done
+if [[ -n "$BREW_PREFIX" ]]; then
+  fpath+=("${BREW_PREFIX}/share/zsh/site-functions")
+fi
+
+compinit
+echo "-> Regenerated .zcompdump"
+
+echo "Done! Please run \`reload!\` or restart your terminal to apply."
