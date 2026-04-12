@@ -7,7 +7,9 @@ Personalized shell environment, forked from [Zach Holman's dotfiles](http://zach
 This setup focuses on **performance** and **maintainability** while leveraging the best parts of the Oh-My-Zsh ecosystem.
 
 ### Key Performance Optimizations
-- **Antidote for Plugins**: Replaced the full Oh-My-Zsh framework with [Antidote](https://getantidote.github.io/). This allows loading only necessary OMZ plugins (like `git`, `docker`, etc.) without the overhead of the entire framework. Plugins are statically compiled for near-instant startup.
+- **Static File Sourcing (`zsh-rebuild`)**: Instead of dynamically globbing for `.zsh` files on every startup, a `zsh-rebuild` script generates a static index (`~/.zsh_index.zsh`), drastically reducing I/O overhead.
+- **Antidote for Plugins**: Replaced the full Oh-My-Zsh framework with [Antidote](https://getantidote.github.io/). This allows loading only necessary OMZ plugins (like `git`, `docker`, etc.) without the overhead of the entire framework. Plugins are statically compiled into `~/.zsh_plugins.zsh` for near-instant startup.
+- **Optimized Autocompletion (`compinit`)**: We use `compinit -C` for rapid startup, only performing a full security and timestamp check (`compinit`) once every 24 hours in the background.
 - **Mise for Tooling**: Replaced `nvm` with [Mise](https://mise.jdx.dev/). Mise is written in Rust and handles tool versions (Node, Python, Go) without slowing down every shell session.
 - **Homebrew Prefix Caching**: The Homebrew installation path is cached in `$BREW_PREFIX` once during startup, avoiding expensive subshell calls like `$(brew --prefix)` throughout the configuration.
 - **Optimized Loading Order**: Shell initialization is carefully sequenced: Environment -> PATH -> `compinit` -> Plugins -> Aliases. Initializing `compinit` *before* plugins ensures that `compdef` is always available when plugins need it.
@@ -35,7 +37,10 @@ The `bootstrap` script will link your configuration files and sync all dependenc
 ## Maintenance & Customization
 
 ### Adding Plugins
-Add any Zsh plugin (from GitHub or Oh-My-Zsh) to `zsh/plugins.txt` and restart your shell.
+Add any Zsh plugin (from GitHub or Oh-My-Zsh) to `zsh/plugins.txt` and run `zsh-rebuild` to regenerate the static plugin bundle.
+
+### Updating Configuration Files
+When adding new `.zsh` files (aliases, paths, completions) to the `.dotfiles` directory, run `zsh-rebuild` to update the static source index.
 
 ### Adding Packages
 Add new Homebrew packages or Mac apps to the appropriate `Brewfile`:
