@@ -13,6 +13,8 @@ if [[ -x /opt/homebrew/bin/brew ]]; then
   export BREW_PREFIX="/opt/homebrew"
 elif [[ -x /usr/local/bin/brew ]]; then
   export BREW_PREFIX="/usr/local"
+elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+  export BREW_PREFIX="/home/linuxbrew/.linuxbrew"
 fi
 
 # 1. Bootstrapping Caches (first-time setup or manually deleted)
