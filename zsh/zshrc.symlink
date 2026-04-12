@@ -4,7 +4,7 @@ export DOTFILES=$HOME/.dotfiles
 # your project folder that we can `c [tab]` to
 export PROJECTS=~/workspaces
 
-# Define Cache Directory for Oh-My-Zsh plugins (used by antidote)
+# Define Cache Directory for Oh-My-Zsh plugins
 export ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/oh-my-zsh"
 mkdir -p "$ZSH_CACHE_DIR/completions"
 
@@ -15,15 +15,24 @@ elif [[ -x /usr/local/bin/brew ]]; then
   export BREW_PREFIX="/usr/local"
 fi
 
-# 1. Environment and PATH
-typeset -U config_files
-config_files=($DOTFILES/**/*.zsh(N))
+# 1. Bootstrapping Caches (first-time setup or manually deleted)
+if [[ ! -f "$HOME/.zsh_index.zsh" || ! -f "$HOME/.zsh_plugins.zsh" ]]; then
+  if command -v zsh-rebuild >/dev/null 2>&1; then
+    echo "Running first-time zsh cache generation..."
+    zsh-rebuild
+  elif [[ -x "$DOTFILES/bin/zsh-rebuild" ]]; then
+    echo "Running first-time zsh cache generation..."
+    "$DOTFILES/bin/zsh-rebuild"
+  fi
+fi
 
-# Load path files first
-for file in ${(M)config_files:#*/path.zsh}
-do
-	source $file
-done
+# 2. Source statically generated files
+if [[ -f "$HOME/.zsh_index.zsh" ]]; then
+  source "$HOME/.zsh_index.zsh"
+fi
+
+# Load path files first (from cache)
+if functions load_zsh_paths >/dev/null; then load_zsh_paths; fi
 
 # use .localrc for SECRET stuff
 if [[ -a $HOME/.localrc ]]
@@ -31,50 +40,38 @@ then
   source $HOME/.localrc
 fi
 
-# 2. Completions and fpath setup (MUST BE BEFORE COMPINIT)
+# 3. Completions and fpath setup (MUST BE BEFORE COMPINIT)
 # Add OMZ completions to fpath
 fpath=($ZSH_CACHE_DIR/completions $DOTFILES/functions $fpath)
-for topic_folder ($DOTFILES/*) if [ -d $topic_folder ]; then fpath=($topic_folder $fpath); fi;
+for topic_folder in $DOTFILES/*; do
+  if [ -d $topic_folder ]; then fpath=($topic_folder $fpath); fi;
+done
 if [[ -n "$BREW_PREFIX" ]]; then
-  fpath+=("${BREW_PREFIX}/share/zsh/site-functions/")
+  fpath+=("${BREW_PREFIX}/share/zsh/site-functions")
 fi
 
-# Initialize autocomplete early so compdef is available for plugins
-autoload -U compinit
-compinit
-
-# 3. Plugins (Antidote) - Can now use compdef safely
-local antidote_path="${BREW_PREFIX}/opt/antidote/share/antidote/antidote.zsh"
-if [[ ! -f $antidote_path ]]; then
-  antidote_path="$HOME/.antidote/antidote.zsh"
+# Initialize autocomplete (optimized)
+autoload -Uz compinit
+# Only run full compinit once a day
+if [[ -n $(find ~/.zcompdump -mtime +1 2>/dev/null) ]]; then
+  compinit
+else
+  compinit -C
 fi
 
-if [[ -f $antidote_path ]]; then
-  source $antidote_path
-  antidote load $DOTFILES/zsh/plugins.txt
+# 4. Plugins (Antidote statically bundled)
+if [[ -f "$HOME/.zsh_plugins.zsh" ]]; then
+  source "$HOME/.zsh_plugins.zsh"
 fi
 
-# 4. Aliases and other scripts
-for file in ${(M)config_files:#*/aliases.zsh}
-do
-	source $file
-done
+# 5. Aliases and other scripts (from cache)
+if functions load_zsh_aliases >/dev/null; then load_zsh_aliases; fi
+if functions load_zsh_misc >/dev/null; then load_zsh_misc; fi
 
-# Load everything but path, completion and aliases files (already sourced or will be)
-for file in ${${${config_files:#*/path.zsh}:#*/completion.zsh}:#*/aliases.zsh}
-do
-	source $file
-done
+# Load custom completions
+if functions load_zsh_completions >/dev/null; then load_zsh_completions; fi
 
-# Load custom completions using our cached mechanism
-for file in ${(M)config_files:#*/completion.zsh}
-do
-	source $file
-done
-
-# 5. Tools (Mise, etc.)
+# 6. Tools (Mise, etc.)
 if command -v mise >/dev/null 2>&1; then
   eval "$(mise activate zsh)"
 fi
-
-unset config_files
