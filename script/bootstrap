@@ -162,7 +162,7 @@ if [ -f /etc/debian_version ]
 then
   info "installing dependencies for Debian"
   sudo apt-get update
-  sudo apt-get install -y zsh git curl wget
+  sudo apt-get install -y zsh git curl wget fzf
   
   if [ ! -d "$HOME/.antidote" ]
   then
