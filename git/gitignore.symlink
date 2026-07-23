@@ -80,6 +80,7 @@ project/plugins/project/
 *.ipr
 *.iws
 .idea/
+*.private.env.json # IDEA http client private variables
 
 # Eclipse #
 ###########
